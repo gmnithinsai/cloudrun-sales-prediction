@@ -10,7 +10,7 @@ with open('model.pkl', 'rb') as f:
 
 @app.route('/')
 def home():
-    return jsonify({'message': 'Sales Prediction API is running v2'})
+    return jsonify({'message': 'Sales Prediction API is running v3'})
 
 @app.route('/predict', methods=['POST'])
 def predict():
