@@ -12,7 +12,7 @@ steps:
     args:
       [
         'push',
-        'us-east1-docker.pkg.dev/$PROJECT_ID/my-repo-nithin/cloud-run-ml-sales-prediction:$SHORT_SHA'
+        'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-nithin/cloud-run-ml-sales-prediction:$SHORT_SHA'
       ]
     id: 'Push to Artifact Registry'
 
