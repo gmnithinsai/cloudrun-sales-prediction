@@ -38,7 +38,7 @@ steps:
     args:
       [
         'deploy', 'releases', 'create', 'release-$BUILD_ID',
-        '--delivery-pipeline', 'cloud-run-pipeline',
+        '--delivery-pipeline', 'sales-pred-pipeline-nithin',
         '--region', 'us-west1',
         '--skaffold-file', 'skaffold.yaml',
         '--images',
