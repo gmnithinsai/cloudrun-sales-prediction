@@ -1,4 +1,5 @@
 steps:
+  # Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -8,6 +9,7 @@ steps:
       ]
     id: 'Build Docker image'
 
+  # Push Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -16,6 +18,7 @@ steps:
       ]
     id: 'Push to Artifact Registry'
 
+  # (Optional) Deploy to Cloud Run directly (can skip if Cloud Deploy fully handles deployment)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -29,9 +32,22 @@ steps:
       ]
     id: 'Deploy to Cloud Run'
 
+  # Trigger Cloud Deploy Release
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      [
+        'deploy', 'releases', 'create', 'release-$BUILD_ID',
+        '--delivery-pipeline', 'cloud-run-pipeline',
+        '--region', 'us-west1',
+        '--skaffold-file', 'skaffold.yaml',
+        '--images',
+        'cloud-run-ml-sales-prediction=us-central1-docker.pkg.dev/$PROJECT_ID/my-repo-nithin/cloud-run-ml-sales-prediction:$SHORT_SHA'
+      ]
+    id: 'Create Cloud Deploy Release'
+
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
 substitutions:
   _SERVICE_NAME: cloud-run-app-nithin
-
